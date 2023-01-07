@@ -21,7 +21,7 @@ jobs:
         run: docker build -f Dockerfile -t ${{secrets.DOCKER_USER}}/products-data:latest .
 
       - name: Push Docker image
-        run: docker push ${{secrets.DOCKER_USER}}/productApp
+        run: docker push ${{secrets.DOCKER_USER}}/productapp
 
       - name: Azure Login
         uses: Azure/login@v1.4.6
@@ -37,7 +37,7 @@ jobs:
       
       - name: Update Deployment image
         run: |
-          kubectl set image deployment/productApp-deployment productApp=${{secrets.DOCKER_USER}}/productApp:latest -n rso-deploy
+          kubectl set image deployment/productapp-deployment productapp=${{secrets.DOCKER_USER}}/productapp:latest -n rso-deploy
       - name: Wait for rollout to finish
         run: |
-          kubectl rollout restart deployment/productApp-deployment -n rso-deploy
+          kubectl rollout restart deployment/productapp-deployment -n rso-deploy

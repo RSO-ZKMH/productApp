@@ -7,24 +7,24 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productApp-deployment
+  name: productapp-deployment
   namespace: rso-deploy
   labels:
-    app: productApp
+    app: productapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: productApp
+      app: productapp
   template:
     metadata:
       labels:
-        app: productApp
+        app: productapp
         component: backend
     spec:
       containers:
-        - name: productApp
-          image: zankor/productApp:latest
+        - name: productapp
+          image: zankor/productapp:latest
           imagePullPolicy: "Always"
           ports:
             - containerPort: 8000
@@ -35,7 +35,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: productApp-service
+  name: productapp-service
   namespace: rso-deploy
   labels:
     app: producthandler
@@ -46,7 +46,7 @@ spec:
       protocol: TCP
       targetPort: 8000
   selector:
-    app: productApp
+    app: productapp
     component: backend
 ---
 

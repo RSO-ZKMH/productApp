@@ -27,7 +27,7 @@ spec:
           image: zankor/productapp:latest
           imagePullPolicy: "Always"
           ports:
-            - containerPort: 8000
+            - containerPort: 9000
           env:
           - name: BACKEND_SERVER_URL
             value: producthandler-api
@@ -42,9 +42,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8000
+    - port: 9000
       protocol: TCP
-      targetPort: 8000
+      targetPort: 9000
   selector:
     app: productapp
     component: backend

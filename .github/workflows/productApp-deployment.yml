@@ -18,7 +18,7 @@ jobs:
           docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Build Docker image
         working-directory: ./productApp
-        run: docker build -f Dockerfile -t ${{secrets.DOCKER_USER}}/products-data:latest .
+        run: docker build -f Dockerfile -t ${{secrets.DOCKER_USER}}/productapp:latest .
 
       - name: Push Docker image
         run: docker push ${{secrets.DOCKER_USER}}/productapp

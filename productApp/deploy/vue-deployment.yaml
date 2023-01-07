@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rso-deploy
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productApp-deployment
+  namespace: rso-deploy
+  labels:
+    app: productApp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productApp
+  template:
+    metadata:
+      labels:
+        app: productApp
+        component: backend
+    spec:
+      containers:
+        - name: productApp
+          image: zankor/productApp:latest
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8000
+          env:
+          - name: BACKEND_SERVER_URL
+            value: producthandler-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: productApp-service
+  namespace: rso-deploy
+  labels:
+    app: producthandler
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: productApp
+    component: backend
+---
+

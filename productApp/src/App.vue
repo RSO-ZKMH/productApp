@@ -58,6 +58,7 @@ const clientUser = axios.create({
   timeout: 5000,
 });
 
+
 export default {
   name: "App",
 
@@ -76,11 +77,19 @@ export default {
   },
   methods: {
     login(e) {
+      // Get the csrf token from the cookie
+      const csrf_token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
       // Send a request to login with username and password
       clientUser
         .post("/api/v1/login", {
           username: this.username,
           password: this.password,
+        },
+        {
+        headers: { "X-CSRFToken": csrf_token},
         })
         .then((response) => {
           // Save the response token in localstorage

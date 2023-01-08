@@ -29,9 +29,8 @@
 <script>
 import axios from "axios";
 
-// Get the base url from environment variables
-const SERVER_URL =
-  import.meta.env.BACKEND_SERVER_URL || "http://localhost:8000/";
+// Get the base url from environment variables using process.env
+const SERVER_URL = process.env.BACKEND_SERVER_URL || "http://localhost:8000/";;
 
 const client = axios.create({
   baseURL: SERVER_URL,

@@ -30,7 +30,7 @@
 import axios from "axios";
 
 // Get the base url from environment variables using process.env
-const SERVER_URL = import.meta.env.VUE_APP_BACKEND_URL || "http://localhost:8000/";
+const SERVER_URL = import.meta.env.VITE_BACKEND_URL || "producthandler-api";
 
 const client = axios.create({
   baseURL: SERVER_URL,
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     fetchProducts(e) {
-      console.log("SERVER_URL", SERVER_URL);
+      console.log("env", import.meta.env);
 
       // Create a request to backend products
       client

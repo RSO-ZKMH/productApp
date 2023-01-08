@@ -1,5 +1,6 @@
 FROM node
 WORKDIR /app
+ENV VITE_BACKEND_URL http://not-localhost:1000
 COPY package*.json ./
 RUN npm install
 COPY . .

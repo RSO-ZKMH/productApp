@@ -29,7 +29,7 @@ spec:
           ports:
             - containerPort: 9000
           env:
-          - name: VUE_APP_BACKEND_URL
+          - name: VITE_BACKEND_URL
             value: producthandler-api
           - name: ASSET_URL
             value: /app

@@ -13,8 +13,9 @@
     </div>
     <div class="login" v-if="!isLoggedIn">
       <h1>Log in</h1>
-      <input type="text" v-model="username" placeholder="Username" /><br />
-      <input type="password" v-model="password" placeholder="Password" />
+      <input type="text" class="input" v-model="username" placeholder="Username" /><br />
+      <input type="password" class="input" v-model="password" placeholder="Password" />
+      <br>
       <button @click="login">Log in</button>
     </div>
     <div class="center" v-if="isLoggedIn">
@@ -25,10 +26,10 @@
       <input
         type="text"
         placeholder="Search query"
-        @input="fetchProducts"
         v-model="query"
         class="search"
       />
+      <button @click="fetchProducts">Search</button>
 
       <h2>Products</h2>
       <div class="productsContainer">
@@ -36,7 +37,7 @@
           <div class="product" v-for="product in products" :key="product.id">
             <p>
               {{ product.title }} - {{ product.price }}€ - {{ product.store }}
-              <button @click="addBasket(product)">
+              <button @click="addBasket(product)" style="float-right">
                 Add to shopping basket
               </button>
             </p>
@@ -75,6 +76,7 @@ export default {
       password: "",
       // Check if localstorage has a token
       isLoggedIn: localStorage.getItem("token") ? true : false,
+      timer: null,
     };
   },
   mounted() {
@@ -135,6 +137,8 @@ export default {
       let productId = product.id;
       let userId = localStorage.getItem("id");
 
+
+
       // Create a request to backend shoppingBasket
 
     },
@@ -150,8 +154,11 @@ export default {
   margin-left: 10px;
 }
 
+.input {
+  width: 200px;
+  height: 50px;	
+}
 .center {
-  background-color: rgb(53, 113, 49);
   height: 100%;
   left: auto;
   right: auto;
@@ -160,7 +167,6 @@ export default {
 }
 
 .login {
-  background-color: rgb(53, 113, 49);
   height: 100%;
   left: auto;
   right: auto;
@@ -176,11 +182,32 @@ export default {
 }
 
 .internalContainer {
-  padding: 20px;
+  width: 75%;
+  margin-left: 12.5%;
+  margin-right: 12.5%;
+}
+
+.product {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+  align-items: center;
+}
+
+button {
+  background-color: rgb(53, 113, 49);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 .productsContainer {
-  background-color: lightblue;
   height: 90%;
   width: 100%;
   top: 5%;

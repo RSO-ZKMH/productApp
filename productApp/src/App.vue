@@ -3,23 +3,24 @@
 <template>
   <main>
     <!--<TheWelcome />-->
-    <div class="login" v-if='!isLoggedIn'>
+    <div class="login" v-if="!isLoggedIn">
       <h1>Welcome to the product app</h1>
       <p>
         This is a simple app to search for products. You can search for products
         by name, price, store, etc.
       </p>
-      <p>
-        To get started, please log in with your username and password.
-      </p>
+      <p>To get started, please log in with your username and password.</p>
     </div>
-    <div class="login" v-if='!isLoggedIn'>
+    <div class="login" v-if="!isLoggedIn">
       <h1>Log in</h1>
-      <input type="text" v-model="username" placeholder="Username" /><br>
+      <input type="text" v-model="username" placeholder="Username" /><br />
       <input type="password" v-model="password" placeholder="Password" />
-      <button @click='login'>Log in</button>
+      <button @click="login">Log in</button>
     </div>
-    <div class="center" v-if='isLoggedIn'>
+    <div class="center" v-if="isLoggedIn">
+      <div class="logout">
+        <button @click="logout">Logout</button>
+      </div>
       <h1>Enter a query string</h1>
       <input
         type="text"
@@ -28,12 +29,16 @@
         v-model="query"
         class="search"
       />
+
       <h2>Products</h2>
       <div class="productsContainer">
         <div class="internalContainer">
           <div class="product" v-for="product in products" :key="product.id">
             <p>
               {{ product.title }} - {{ product.price }}€ - {{ product.store }}
+              <button @click="addBasket(product)">
+                Add to shopping basket
+              </button>
             </p>
           </div>
         </div>
@@ -48,6 +53,7 @@ import axios from "axios";
 // Get the base url from environment variables using process.env
 const SERVER_URL = import.meta.env.VITE_BACKEND_URL || "products";
 const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL || "user";
+const BASKET_SERVICE_URL = import.meta.env.VITE_BASKET_SERVICE_URL || "shoppingBasket";
 
 const clientProduct = axios.create({
   baseURL: SERVER_URL,
@@ -57,7 +63,6 @@ const clientUser = axios.create({
   baseURL: USER_SERVICE_URL,
   timeout: 5000,
 });
-
 
 export default {
   name: "App",
@@ -84,23 +89,31 @@ export default {
         .split("=")[1];
       // Send a request to login with username and password
       clientUser
-        .post("/api/v1/login", {
-          username: this.username,
-          password: this.password,
-        },
-        {
-        headers: { "X-CSRFToken": csrf_token},
-        })
+        .post(
+          "/api/v1/login",
+          {
+            username: this.username,
+            password: this.password,
+          },
+          {
+            headers: { "X-CSRFToken": csrf_token },
+          }
+        )
         .then((response) => {
           // Save the response token in localstorage
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userId", response.data.userId);
           this.isLoggedIn = true;
           return response;
         })
         .catch((error) => {
           return error;
         });
-
+    },
+    logout() {
+      // Clear localstorage
+      localStorage.clear();
+      this.isLoggedIn = false;
     },
     fetchProducts(e) {
       // Create a request to backend products
@@ -118,14 +131,21 @@ export default {
           return error;
         });
     },
+    addBasket(product) {
+      let productId = product.id;
+      let userId = localStorage.getItem("id");
+
+      // Create a request to backend shoppingBasket
+
+    },
   },
 };
 </script>
 
 <style scoped>
 .search {
-  width:300px;
-  height:50px;
+  width: 300px;
+  height: 50px;
   font-size: 15px;
   margin-left: 10px;
 }
@@ -150,7 +170,12 @@ export default {
   padding-top: 20px;
 }
 
-.internalContainer{
+.logout {
+  margin: 10px;
+  float: right;
+}
+
+.internalContainer {
   padding: 20px;
 }
 

@@ -30,7 +30,7 @@
 import axios from "axios";
 
 // Get the base url from environment variables using process.env
-const SERVER_URL = import.meta.env.VITE_BACKEND_URL || "producthandler-api";
+const SERVER_URL = import.meta.env.VITE_BACKEND_URL || "products";
 
 const client = axios.create({
   baseURL: SERVER_URL,

@@ -2,7 +2,7 @@ FROM node:16.16.0 as build-stage
 
 
 # make the 'app' folder the current working directory
-WORKDIR /app
+WORKDIR /app/app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./

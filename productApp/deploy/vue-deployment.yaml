@@ -31,7 +31,7 @@ spec:
           env:
           - name: BACKEND_SERVER_URL
             value: producthandler-api
-          - name: APP_BASE_PATH
+          - name: ASSET_URL
             value: /app
 ---
 apiVersion: v1
